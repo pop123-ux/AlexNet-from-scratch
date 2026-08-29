@@ -119,6 +119,9 @@ class AlexNet(nn.Module):
         train_loss_history = []
         val_loss_history = []
         
+        y_true_epoch = None
+        y_pred_epoch = None
+        
         print(f"AlexNet training will start on: {device.type.upper()}")
         print("=" * 60)
         
@@ -143,7 +146,8 @@ class AlexNet(nn.Module):
             epoch_loss = running_loss / len(train_loader)
 
             is_last_epoch = (epoch == epochs - 1)
-            val_accuracy, val_loss, y_true_epoch, y_pred_epoch = self.evaluate(val_loader, device=device, return_arrays=is_last_epoch)
+            should_return_arrays = is_last_epoch and track 
+            val_accuracy, val_loss, y_true_epoch, y_pred_epoch = self.evaluate(val_loader, device=device, return_arrays=should_return_arrays)
             
             scheduler.step(val_loss)
             
@@ -156,6 +160,9 @@ class AlexNet(nn.Module):
         
         if track:
             return train_loss_history, val_loss_history, y_true_epoch, y_pred_epoch
+        
+        # If track is false we return the history of both losses
+        return train_loss_history, val_loss_history, None, None
 
     def evaluate(self, val_loader, device=None, verbose=False, return_arrays=False):
         """Evaluates the model and optionally collects arrays for the confusion matrix"""
@@ -191,8 +198,8 @@ class AlexNet(nn.Module):
 
                 # Appending Ground Truths and Predicted Outputs to list arrays
                 if return_arrays:
-                    y_true.extend(labels.cpu().numpy()) # We move the actual labels to cpu, because numpy can't process variables that are on the GPU
-                    y_pred.extend(predicted.cpu().numpy()) # We move the predicted labels to cpu, because numpy can't process variables that are on the GPU
+                    y_true.extend(labels.cpu().tolist()) # We move the actual labels to cpu, because numpy can't process variables that are on the GPU
+                    y_pred.extend(predicted.cpu().tolist()) # We move the predicted labels to cpu, because numpy can't process variables that are on the GPU
             
             accuracy = 100 * correct / total
             avg_val_loss = running_val_loss / len(val_loader)
