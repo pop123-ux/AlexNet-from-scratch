@@ -112,6 +112,7 @@ Some visual assets used in this repository are sourced from Wikimedia Commons:
 - **Alex Krizhevsky photograph** — [Source](https://www.artificial-intelligence.blog/people-in-ai/alex-krizhevsky).
 - **AlexNet architecture image** — Zhang, Aston and Lipton, Zachary C. and Li, Mu and Smola, Alexander J. Originally from [Dive into Deep Learning](https://github.com/d2l-ai/d2l-en). Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). [Wikimedia Commons source](https://commons.wikimedia.org/wiki/File:AlexNet_block_diagram.svg).
 - **Imagenette dataset representative image** — TensorFlow Datasets - [Source](https://www.tensorflow.org/datasets/catalog/imagenette).
+- 
 These third-party images are **not covered by this repository's MIT License**. Their respective copyright and licensing terms continue to apply.
 
 ## 🔗 More
