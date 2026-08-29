@@ -69,7 +69,7 @@ The **10 Classes** of Imagenette span in the following order: Tench (fish), Engl
 
 ![Plots](IMAGES/train_val_plot.png)
 
-**83.26%% validation accuracy** over 30 epochs on the [Imagenette dataset](https://github.com/fastai/imagenette) (in the included notebook run), trained with the notebook's loop over the full 9,469-image training split.
+**83.26% validation accuracy** over 30 epochs on the [Imagenette dataset](https://github.com/fastai/imagenette) (in the included notebook run), having been trained with the notebook's loop over the full 9,469-image training split.
 
 The full training run took roughly 20 minutes on a Free Colab T4 GPU.
 
