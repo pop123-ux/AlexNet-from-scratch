@@ -48,7 +48,7 @@ Every layer is written out in simple PyTorch rather than pulled from a library, 
 | **D9** | `Dropout(p=0.5)` | `-` | 0 |
 | **F10** | `Linear(4096→4096)` + ReLU  | `4096` | 16.781.312 |
 | **D10** | `Dropout(p=0.5)` | `-` | 0 |
-| **Output-F11** | `Linear(4096->1000)` | `1000` classes for the original ImageNet classification task | 0 (fixed) |
+| **Output-F11** | `Linear(4096->1000)` | `1000` classes for the original ImageNet classification task | 4.097.000 |
 | | | **Total** | **46.747.008** |
 
 ## The Imagenette dataset
