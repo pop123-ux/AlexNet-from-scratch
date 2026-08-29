@@ -42,7 +42,7 @@ class AlexNet(nn.Module):
     - F10 basically understands F9's output and tries to find high-level correlations (Link this to kind of a probability calculation, based on the F9 output, F9 translates the geometry into real objects and F10 basically calculates how likely of each 1000 labels that particular image is, probabilistically)
     - The number 4096 was chosen empirically by the AlexNet authors, they have tested 1024, 2048, and 4096. And the latter has proven to give the highest accuracy in the competition 
     """
-    def __init__(self) -> None:
+    def __init__(self, num_classes=1000) -> None:
         super().__init__()
         # in_channels=3 because the img. now is in RGB format, unlike the previous LeNet5
         self.conv1 = nn.Conv2d(in_channels=3, out_channels=96, kernel_size=11, stride=4)
@@ -64,7 +64,8 @@ class AlexNet(nn.Module):
         self.d7 = nn.Dropout(p=0.5)
         self.f7 = nn.Linear(in_features=4096, out_features=4096)
         
-        self.f8 = nn.Linear(in_features=4096, out_features=1000)
+        # By default the final linear layer returns 1000 classes as per the ImageNet dataset, but this may be adapted on the specific dataset we are using this model for
+        self.f8 = nn.Linear(in_features=4096, out_features=num_classes)
 
     def forward(self, x):
         x = ReLU(self.conv1(x))
