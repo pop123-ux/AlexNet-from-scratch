@@ -1,14 +1,13 @@
 import os
-from typing import Optional, Union, Tuple
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader
+# import torch.nn.functional as F - includes already implemented ReLU via F.relu
 
-EPOCHS: int = 90
+EPOCHS = 30
 
 """AlexNet uses ReLU (Rectified Linear Unit) as the activation function"""
 def ReLU(x: torch.Tensor) -> torch.Tensor:
-    return torch.clamp_(x, min=0) # Fixes the minimum value to 0
+    return torch.clamp(x, min=0) # Fixes the minimum value to 0
 
 class AlexNet(nn.Module):
     """AlexNet model architecture from scratch.
@@ -67,7 +66,7 @@ class AlexNet(nn.Module):
         
         self.f8 = nn.Linear(in_features=4096, out_features=1000)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x):
         x = ReLU(self.conv1(x))
         x = self.maxpool1(x)
 
@@ -95,7 +94,7 @@ class AlexNet(nn.Module):
         return x
     
     # Now the fit function as also implemented in the former LeNet-5 project
-    def fit(self, train_loader: DataLoader, val_loader: DataLoader, device: Optional[Union[torch.device, str]] = None, epochs=EPOCHS):
+    def fit(self, train_loader, val_loader, device=None, track=None, epochs=EPOCHS):
         if device is None:
             device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         else:
@@ -114,16 +113,23 @@ class AlexNet(nn.Module):
         )
         # Unlike LeNet-5, AlexNet used the basic, standard, CrossEntropyLoss
         criterion = nn.CrossEntropyLoss()
+        
+        # Lists to keep track of losses for later visualization
+        train_loss_history = []
+        val_loss_history = []
+        
+        print(f"AlexNet training will start on: {device.type.upper()}")
+        print("=" * 60)
+        
         for epoch in range(epochs):
-            print(f"Epoch: {epoch}")
             self.train() 
             running_loss = 0.0
             for batch_idx, (inputs, labels) in enumerate(train_loader):
                 inputs, labels = inputs.to(device), labels.to(device)
                 optimizer.zero_grad()
-                
-                outputs: torch.Tensor = self(inputs)
-                loss: torch.Tensor = criterion(outputs, labels)
+                outputs = self(inputs)
+
+                loss = criterion(outputs, labels)
 
                 loss.backward()
                 optimizer.step()
@@ -131,17 +137,27 @@ class AlexNet(nn.Module):
                 running_loss += loss.item()
 
                 if batch_idx % 100 == 0:
-                    print(f"Batch: {batch_idx:03d} | Batch Loss: {loss.item():.4f}")
+                    print(f"Epoch: {epoch+1} | Batch: {batch_idx:03d} | Batch Loss: {loss.item():.4f}")
 
-            epoch_loss: float = running_loss / len(train_loader)
+            epoch_loss = running_loss / len(train_loader)
 
-            val_accuracy, val_loss = self.evaluate(val_loader, criterion, device=device)
+            is_last_epoch = (epoch == epochs - 1)
+            val_accuracy, val_loss, y_true_epoch, y_pred_epoch = self.evaluate(val_loader, device=device, return_arrays=is_last_epoch)
+            
             scheduler.step(val_loss)
+            
+            # Appending historical loss values for metrics tracking and visualization
+            train_loss_history.append(epoch_loss)
+            val_loss_history.append(val_loss)
 
-            print(f"Epoch {epoch} completed | Average Loss: {epoch_loss:.4f}")
+            
+            print(f"Epoch {epoch+1:02d}/{epochs:02d} completed | Train Loss: {epoch_loss:.4f} | Val Loss: {val_loss:.4f} | Val Acc: {val_accuracy:.2f}%")
+        
+        if track:
+            return train_loss_history, val_loss_history, y_true_epoch, y_pred_epoch
 
-    def evaluate(self, criterion: Optional[nn.modules.loss._Loss] = None, val_loader: DataLoader, device: Optional[Union[torch.device, str]], verbose: bool = False) -> Tuple[float, float]:
-        """Evaluates the model on the validation dataset and returns the accuracy."""
+    def evaluate(self, val_loader, device=None, verbose=False, return_arrays=False):
+        """Evaluates the model and optionally collects arrays for the confusion matrix"""
         if device is None:
                     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         else:
@@ -152,44 +168,48 @@ class AlexNet(nn.Module):
 
         correct = 0
         total = 0
-        running_val_loss: float = 0.0
+        running_val_loss = 0.0
+        criterion = nn.CrossEntropyLoss()
         
-        if criterion is None:
-            criterion = nn.CrossEntropyLoss()
+        # Initializing collections to hold target targets and model outputs
+        y_true = [] if return_arrays else None
+        y_pred = [] if return_arrays else None
+        
         with torch.no_grad():
             for images, labels in val_loader:
                 images, labels = images.to(device), labels.to(device)
-                outputs: torch.Tensor = self(images)
-
-                loss: torch.Tensor = criterion(outputs, labels)
-                running_val_loss += loss.item()
+                outputs = self(images)
                 
-                # This time, as for predicting the labels, unlike the LeNet-5 model, we will use the torch.argmax function, the standard for modern Deep Neural Networks
-                predicted: torch.Tensor = torch.argmax(outputs, dim=1) # dim 1 represents the logits, while dim 0 represents the outputs
+                loss = criterion(outputs, labels)
+                running_val_loss += loss.item()
+                # This time, as to predict the labels unlike the LeNet-5 model, we will use the torch.argmax function, the standard
+                predicted = torch.argmax(outputs, dim=1) # dim 1 represents the logits, while dim 0 represents the outputs
 
                 total += labels.size(0) # the .size(0) method (equal to .shape[0]) returns the length of the first tensor dimension, the exact number of images from the current batch
                 correct += (predicted == labels).sum().item() # .sum() basically computes the exact number of correct predictions from the batch; .item() extracts the pure numerical value from the tensor
 
-            accuracy: float = 100 * correct / total
-            avg_val_loss: float = running_val_loss / len(val_loader)
+                # Appending Ground Truths and Predicted Outputs to list arrays
+                if return_arrays:
+                    y_true.extend(labels.cpu().numpy()) # We move the actual labels to cpu, because numpy can't process variables that are on the GPU
+                    y_pred.extend(predicted.cpu().numpy()) # We move the predicted labels to cpu, because numpy can't process variables that are on the GPU
+            
+            accuracy = 100 * correct / total
+            avg_val_loss = running_val_loss / len(val_loader)
 
             if verbose:
                 print(f"Total samples evaluated: {total}")
                 print(f"Correct predictions: {correct}")
 
-            print(f"Total accuracy on the validation split: {accuracy:.2f}")
-
-            return accuracy, avg_val_loss
+            return accuracy, avg_val_loss, y_true, y_pred
 
     # Saving and loading the model's state dictionary to/from a file for later use.
     # The default path sits next to this file, so it does not depend on the directory
     # the script or notebook happens to be run from.
     DEFAULT_WEIGHTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'alexnet_model.pth')
 
-    def load(self, path: Optional[str]=None, device: Optional[Union[torch.device, str]] = None) -> None:
+    def load(self, path=None, device=None):
          """Loads the model's state dictionary from a file."""
-         path: str = path or self.DEFAULT_WEIGHTS
-         
+         path = path or self.DEFAULT_WEIGHTS
          if device is None:
               device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
          else:
@@ -202,12 +222,12 @@ class AlexNet(nn.Module):
 
          print(f"AlexNet model loaded from {path} to {device}")
 
-    def save(self, path: Optional[str] = None) -> None:
+    def save(self, path=None):
          """Saves the model's state dictionary to a file."""
-         path: str = path or self.DEFAULT_WEIGHTS
-         
+         import os
+         path = path or self.DEFAULT_WEIGHTS
          # Ensure the directory exists before saving
-         dir_name: str = os.path.dirname(path)
+         dir_name = os.path.dirname(path)
          if dir_name:
               os.makedirs(dir_name, exist_ok=True)
 
