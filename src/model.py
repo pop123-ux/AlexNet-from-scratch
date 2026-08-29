@@ -93,7 +93,11 @@ class AlexNet(nn.Module):
         x = self.f8(x)
 
         return x
-    
+
+    """Added class method to check the total number of parameters of AlexNet"""
+    def params(self):
+        return f"{sum(p.numel() for p in self.parameters())} total trainable parameters"
+        
     # Now the fit function as also implemented in the former LeNet-5 project
     def fit(self, train_loader, val_loader, device=None, track=None, epochs=EPOCHS):
         if device is None:
