@@ -89,7 +89,7 @@ That being said, I invite you to try and beat my score and train the model on ot
 * `test.ipynb` showcases the dataset extraction & visualization, model training loop, loss evolution visualization using matplotlib, confusion matrix computation between the true labels and the predicted ones, a classification report to showcase precision, accuracy, recall and f1-score between the digit classes (from 0-9), and finally a live inference script to observe real sampling and prediction, results I personally find fascinating to say the least
 
 ## Credits
-![Alex Krizhevsky should be here!](IMAGES/Alex Krizhevsky.png) 
+![Alex Krizhevsky should be here!](IMAGES/Alex_Krizhevsky.png) 
 
 Read more about AlexNet [here](https://en.wikipedia.org/wiki/AlexNet).
 
