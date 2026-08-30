@@ -40,7 +40,7 @@ class AlexNet(nn.Module):
     - At the near final layers (5 and 6), even though the number of feature maps remains the same, the network is retaining different information due to the fact the input of a layer is the output of the previous one, hence these are just further scaling the number of parameters the network has. On a more abstract note, let's say the fifth layer detects simple geometrical structures, and the sixth layer uses those to detect more complex features using those structures.
     - A modification in the padding between 2 consecutive convolutional layers is a geometric trick. A larger padding retains the rezolution unchanged to enable the network to process the information again at the same level of detail. A smaller padding (~0) enables the image to become smaller, due to the hidden layer transformations. 
     - F10 basically understands F9's output and tries to find high-level correlations (Link this to kind of a probability calculation, based on the F9 output, F9 translates the geometry into real objects and F10 basically calculates how likely of each 1000 labels that particular image is, probabilistically)
-    - The number 4096 was chosen empirically by the AlexNet authors, they have tested 1024, 2048, and 4096. And the latter has proven to give the highest accuracy in the competition 
+    - The number 4096 was chosen empirically by the AlexNet authors, they have tested 1024, 2048, and 4096. And the latter has proven to give the highest accuracy.
     """
     def __init__(self, num_classes=1000) -> None:
         super().__init__()
