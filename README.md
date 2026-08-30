@@ -75,8 +75,8 @@ The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch mod
 | Software | `Python, PyTorch, torchvision` |
 | Dataset | `Imagenette full size version` |
 | Input | `3x224x224` |
-| Epochs | `TBD` |
-| Batch size | `TBD` |
+| Epochs | `40` |
+| Batch size | `64` |
 | Optimizer | `SGD` |
 | Learning Rate | `0.01` |
 | Momentum | `0.9` |
@@ -93,22 +93,33 @@ The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch mod
 
 **83.26% validation accuracy** over 30 epochs on the [Imagenette dataset](https://github.com/fastai/imagenette) (in the included notebook run), having been trained with the notebook's loop over the full 9,469-image training split.
 
-The full training run took roughly 20 minutes on a Free Colab T4 GPU.
+Here's how the implemented model compares to the one imported via **torchvision.models.alexnet**:
+
+| Model | Parameters | Val. Accuracy | Training Time | Hardware
+| --- | --- |
+| **AlexNet-from-scratch** | `50,844,008` | `TBD` | `TBD` | `Tesla T4` |
+| **Imported AlexNet** | `61,100,840 | `TBD` | `TBD` | `Tesla T4` |
 
 The single accuracy figure is the least interesting output, though. [`test.ipynb`](test.ipynb) also produces a **confusion matrix** and a **per-class classification report** with precision, recall and F1 for each label.
 
-Visualizing the **Classification Report**, a clear outlier was seen, that being the 3rd label (Cassette Player), the classifier reporting a precision of 68%, recall of 72%, and f1-score of 70% respectively.
+Visualizing the **Classification Report**, a clear outlier was seen, that being the 3rd label (Cassette Player), the classifier reporting a precision of TBD%, recall of TBD%, and f1-score of TBD% respectively.
 
 For context, the original AlexNet achieved a top-5 error rate (percentage of test samples where a classification model's five most confident predictions do not include the correct label) of 15.3% on ImageNet. 
 
 Training the **AlexNet-from-scratch** model and evaluating the metrics on ImageNet was out of the scope of this project, simply due to the size of ImageNet being ~144-155 GB and due to lack of compute power available. A possible expansion may be implemented in the near-future in which the model will be trained on a cloud instance and evaluated on larger datasets, such as the classical ImageNet.
 
-That being said, I invite you to try and beat my score and train the model on other datasets and evaluate and plot the metrics, I recommend it do it by yourself with only the desired documentations available so that you can fully understand the training and evaluation process of CNNs and how this model processes data.
+That being said, I invite you to try and beat my score and train the model on other datasets and evaluate & plot the metrics, I recommend it do it by yourself with only the desired documentations available so that you can fully understand the training and evaluation process of CNNs and how this model processes data.
+
+I really hope I helped clarified some uncertainties regarding former state-of-the-art architectures and computing & chaining torch.nn layers. 
 
 ## Notes
 
-* `model.py` follows the paper's implementation closely, but it is not a 1:1 reproduction — this is a learning repo, and the value is in the annotations and code writing and understanding of functionality, rather than rethinking outdated techniques of learning and optimization that do not apply to modern day CNN's (I say this even though I implemented some techniques from the original paper, such as the RBFSublayer, the [RBF loss computation](https://ieeexplore.ieee.org/document/9133368), and the custom decreasing learning rate over epochs)
-* `test.ipynb` showcases the dataset extraction & visualization, model training loop, loss evolution visualization using matplotlib, confusion matrix computation between the true labels and the predicted ones, a classification report to showcase precision, accuracy, recall and f1-score between the digit classes (from 0-9), and finally a live inference script to observe real sampling and prediction, results I personally find fascinating to say the least
+* `model.py` is a ground-up PyTorch reimplementation of the AlexNet architecture studied from the original paper. It is not intended to reproduce the original 2012 CUDA/C++ implementation byte-for-byte. The implementation prioritizes architectural clarity and explicit tensor-shape reasoning over reproducing historical engineering details.
+* `test.ipynb` showcases the dataset extraction & visualization, model training loop, loss evolution visualization using matplotlib; confusion matrix computation between the true labels and the predicted ones, and a classification report to showcase precision, accuracy, recall and f1-score between the 10 classes.
+
+## Lessons learned (informal)
+
+As I said in the former LeCun_5-from-scratch repository of mine, I struggled visualizing PyTorch broadcasting and computing some parameters of the torch.nn API, and I can say for certain that this project helped me understand how **Convolutional**, **MaxPool & AvgPool**, and **Fully Connected Linear** layers  work and how to decide their input & output size and how the stride & padding integer interacts with the final output. I guess CNNs (and LLMs as an extension) really are black boxes :)
 
 ## Credits
 ![Alex Krizhevsky should be here!](IMAGES/Alex_Krizhevsky.png) 
