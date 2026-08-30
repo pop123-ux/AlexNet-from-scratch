@@ -36,20 +36,20 @@ Every layer is written out in **simple PyTorch** rather than pulled from a libra
 | Layer | Operation | Output | Trainable params |
 | --- | --- | --- | --- |
 | Input | 3x224x224 RGB | `3 x 224 x 224` | — |
-| **C1** | `Conv2d(3→96, 11x11, stride 4)` + ReLU  | `96 × 54 × 54` | 34.944 |
+| **C1** | `Conv2d(3→96, 11x11, stride 4)` + ReLU  | `96 × 54 × 54` | 34,944 |
 | **S2** | `MaxPool2d(3x3, stride 2)` | `96 x 26 x 26` | 0 |
-| **C3** | `Conv2d(96→256, 5x5, pad 2)` + ReLU  | `256 x 26 x 26` | 614.656 |
+| **C3** | `Conv2d(96→256, 5x5, pad 2)` + ReLU  | `256 x 26 x 26` | 614,656 |
 | **S4** | `MaxPool2d(3x3, stride 2)` | `256 × 12 × 12` | 0 |
-| **C5** | `Conv2d(256→384, 3x3, pad 1)` + ReLU  | `384 × 12 x 12` | 885.120 |
-| **C6** | `Conv2d(384→384, 3x3, pad 1)` + ReLU  | `384 × 12 x 12` | 1.327.488 |
-| **C7** | `Conv2d(384→256, 3x3, pad 1)` + ReLU  | `256 × 12 x 12` | 884.992 |
+| **C5** | `Conv2d(256→384, 3x3, pad 1)` + ReLU  | `384 × 12 x 12` | 885,120 |
+| **C6** | `Conv2d(384→384, 3x3, pad 1)` + ReLU  | `384 × 12 x 12` | 1,327,488 |
+| **C7** | `Conv2d(384→256, 3x3, pad 1)` + ReLU  | `256 × 12 x 12` | 884,992 |
 | **S8** | `MaxPool2d(3x3, stride 2)` | `256 x 5 x 5` | 0 |
-| **F9** | `Linear(256x5x5=6400→4096)` + ReLU  | `4096` | 26.218.496 |
+| **F9** | `Linear(256x5x5=6400→4096)` + ReLU  | `4096` | 26,218,496 |
 | **D9** | `Dropout(p=0.5)` | `-` | 0 |
-| **F10** | `Linear(4096→4096)` + ReLU  | `4096` | 16.781.312 |
+| **F10** | `Linear(4096→4096)` + ReLU  | `4096` | 16,781,312 |
 | **D10** | `Dropout(p=0.5)` | `-` | 0 |
-| **Output-F11** | `Linear(4096->1000)` | `1000` classes for the original ImageNet classification task | 4.097.000 |
-| | | **Total** | **50.844.008** |
+| **Output-F11** | `Linear(4096->1000)` | `1000` classes for the original ImageNet classification task | 4,097,000 |
+| | | **Total** | **50,844,008** |
 
 ## The Imagenette dataset
 ![A representative image of the Imagenette dataset should appear here](IMAGES/imagenette.png)
