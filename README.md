@@ -16,7 +16,7 @@ Developed in 2012 and originally written in CUDA and C++, it won the **ImageNet 
 │  
 ├── src/            # model initialization code + weights
 │   ├── __init__.py
-│   ├── alexnet_model.pth # The AlexNet-from-scratch model trained on Imagenette for 30 epochs
+│   ├── alexnet_model.pth # Git LFS pointer to the AlexNet trained model on Imagenette
 │   └── model.py
 │
 ├── LICENSE # the MIT License of the project
