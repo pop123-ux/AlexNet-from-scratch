@@ -65,6 +65,28 @@ The **10 Classes** of Imagenette span in the following order: Tench (fish), Engl
 | Train | 9,469 | roughly 3 x 469 × 387 | 3 (RGB) | 10 |
 | Val | 3,925 | roughly 3 x 469 × 387 | 3 (RGB) | 10 |
 
+### Experimental setup
+
+The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch model demonstrated were documented:
+
+| | Category | Setting |
+| --- | --- | --- | --- | --- |
+| Hardware | `NVIDIA Tesla T4` |
+| Software | `Python, PyTorch, torchvision` |
+| Dataset | `Imagenette full size version` |
+| Input | `3x224x224` |
+| Epochs | `TBD` |
+| Batch size | `TBD` |
+| Optimizer | `SGD` |
+| Learning Rate | `0.01` |
+| Momentum | `0.9` |
+| Weight decay | `0.0005` |
+| Scheduler | `ReduceLROnPlateau(factor=0.1, patience=5)` |
+| Dropout | `0.5` |
+| Random Seed | `41` |
+| Checkpoint | `src/alexnet_model.pth` |
+| Runtime | `TBD` |
+
 ### Results
 
 ![Plots](IMAGES/train_val_plot.png)
