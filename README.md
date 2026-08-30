@@ -96,21 +96,25 @@ The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch mod
 Here's how the implemented model compares to the one imported via **torchvision.models.alexnet**:
 
 | Model | Parameters | Val. Accuracy | Training Time | Hardware
-| --- | --- |
+| --- | --- | --- | --- | --- |
 | **AlexNet-from-scratch** | `50,844,008` | `TBD` | `TBD` | `Tesla T4` |
-| **Imported AlexNet** | `61,100,840 | `TBD` | `TBD` | `Tesla T4` |
+| **Imported AlexNet** | `61,100,840` | `TBD` | `TBD` | `Tesla T4` |
 
-The single accuracy figure is the least interesting output, though. [`test.ipynb`](test.ipynb) also produces a **confusion matrix** and a **per-class classification report** with precision, recall and F1 for each label.
+* The single accuracy figure is the least interesting output, though. [`test.ipynb`](test.ipynb) also produces a **confusion matrix** and a **per-class classification report** with precision, recall and F1 for each label.
 
-Visualizing the **Classification Report**, a clear outlier was seen, that being the 3rd label (Cassette Player), the classifier reporting a precision of TBD%, recall of TBD%, and f1-score of TBD% respectively.
+* Visualizing the **Classification Report**, a clear outlier was seen, that being the 3rd label (Cassette Player), the classifier reporting a precision of TBD%, recall of TBD%, and f1-score of TBD% respectively.
 
-For context, the original AlexNet achieved a top-5 error rate (percentage of test samples where a classification model's five most confident predictions do not include the correct label) of 15.3% on ImageNet. 
+* For context, the original AlexNet achieved a top-5 error rate (percentage of test samples where a classification model's five most confident predictions do not include the correct label) of 15.3% on ImageNet. 
 
-Training the **AlexNet-from-scratch** model and evaluating the metrics on ImageNet was out of the scope of this project, simply due to the size of ImageNet being ~144-155 GB and due to lack of compute power available. A possible expansion may be implemented in the near-future in which the model will be trained on a cloud instance and evaluated on larger datasets, such as the classical ImageNet.
+* Training the **AlexNet-from-scratch** model and evaluating the metrics on ImageNet was out of the scope of this project, simply due to the size of ImageNet being ~144-155 GB and due to lack of compute power available. A possible expansion may be implemented in the near-future in which the model will be trained on a cloud instance and evaluated on larger datasets, such as the classical ImageNet.
 
-That being said, I invite you to try and beat my score and train the model on other datasets and evaluate & plot the metrics, I recommend it do it by yourself with only the desired documentations available so that you can fully understand the training and evaluation process of CNNs and how this model processes data.
+* That being said, I invite you to try and beat my score and train the model on other datasets and evaluate & plot the metrics, I recommend it do it by yourself with only the desired documentations available so that you can fully understand the training and evaluation process of CNNs and how this model processes data.
 
-I really hope I helped clarified some uncertainties regarding former state-of-the-art architectures and computing & chaining torch.nn layers. 
+* I really hope I helped clarified some uncertainties regarding former state-of-the-art architectures and computing & chaining torch.nn layers.
+
+## Limitations
+
+
 
 ## Notes
 
