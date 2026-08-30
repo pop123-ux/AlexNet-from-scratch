@@ -1,7 +1,7 @@
 # AlexNet-from-scratch in PyTorch
 ![Architecture Image](IMAGES/alexNet-architecture.png)
 
-My working in-depth implementation of Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton's former state-of-the-art convolutional neural network. This is the second project from the Visual Scrambling series in which I reimplement from scratch the most influential classic architectures and ending with a unique visual model design written and designed by me.
+My working in-depth reimplementation of Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton's former state-of-the-art convolutional neural network. This is the 2nd project from the **Visual Scrambling** series in which I go through the most influential classic architectures, ending with a unique visual model design written and designed by me.
 
 Developed in 2012 and originally written in CUDA and C++, it won the **ImageNet Large Scale Visual Recognition Challenge** with an error rate of **15.3%**.
 
@@ -114,7 +114,16 @@ Here's how the implemented model compares to the one imported via **torchvision.
 
 ## Limitations
 
+This document **does not claim** exact replication of the original ImageNet AlexNet experiment.
 
+The main limitations are:
+
+* ImageNet itself is not used for the reported experiment.
+* The implementation does not reproduce the original two-GPU system exactly.
+* Some historical AlexNet training details are represented by modern PyTorch equivalents.
+* Dependency versions are minimum-version specifications rather than a completely frozen environment.
+
+These are deliberate trade-offs for a small, readable educational repository whose primary purpose is understanding the architecture and the training/evaluation workflow.
 
 ## Notes
 
@@ -123,7 +132,9 @@ Here's how the implemented model compares to the one imported via **torchvision.
 
 ## Lessons learned (informal)
 
-As I said in the former LeCun_5-from-scratch repository of mine, I struggled visualizing PyTorch broadcasting and computing some parameters of the torch.nn API, and I can say for certain that this project helped me understand how **Convolutional**, **MaxPool & AvgPool**, and **Fully Connected Linear** layers  work and how to decide their input & output size and how the stride & padding integer interacts with the final output. I guess CNNs (and LLMs as an extension) really are black boxes :)
+As I said in the former **LeCun_5-from-scratch repository** of mine, I struggled visualizing PyTorch broadcasting and computing some parameters of the torch.nn API, and I can say for certain that this project helped me understand how **Convolutional**, **MaxPool & AvgPool**, and **Fully Connected Linear** layers  work and how to decide their input & output size and how the stride & padding integer interacts with the final output. 
+
+I guess CNNs (and LLMs as an extension) really are black boxes after all :)
 
 ## Credits
 ![Alex Krizhevsky should be here!](IMAGES/Alex_Krizhevsky.png) 
@@ -131,6 +142,8 @@ As I said in the former LeCun_5-from-scratch repository of mine, I struggled vis
 Read more about AlexNet [here](https://en.wikipedia.org/wiki/AlexNet).
 
 - Alex, K., Ilya, S., Bengio, Y., & Geoffrey, H. (2012). [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf).
+
+- Jeremy Howard, [Imagenette](https://github.com/fastai/imagenette/)
 
 ## Imagenette Citation
 
@@ -144,7 +157,7 @@ Read more about AlexNet [here](https://en.wikipedia.org/wiki/AlexNet).
 
 ## Image Credits
 
-Some visual assets used in this repository are sourced from Wikimedia Commons:
+Some visual assets used in this repository are sourced from different places:
 
 - **Alex Krizhevsky photograph** — [Source](https://www.artificial-intelligence.blog/people-in-ai/alex-krizhevsky).
 - **AlexNet architecture image** — viso.ai blog article by Nico Klingler. Originally from [here](https://viso.ai/deep-learning/alexnet/).
