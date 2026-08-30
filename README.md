@@ -69,8 +69,8 @@ The **10 Classes** of Imagenette span in the following order: Tench (fish), Engl
 
 The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch model demonstrated were documented:
 
-| | Category | Setting |
-| --- | --- | --- | --- | --- |
+| Category | Setting |
+| --- | --- |
 | Hardware | `NVIDIA Tesla T4` |
 | Software | `Python, PyTorch, torchvision` |
 | Dataset | `Imagenette full size version` |
