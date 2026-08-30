@@ -96,7 +96,7 @@ class AlexNet(nn.Module):
 
     """Added class method to check the total number of parameters of AlexNet"""
     def params(self):
-        return f"{sum(p.numel() for p in self.parameters())} total trainable parameters"
+        return sum(p.numel() for p in self.parameters())
         
     # Now the fit function as also implemented in the former LeNet-5 project
     def fit(self, train_loader, val_loader, device=None, track=None, epochs=EPOCHS):
