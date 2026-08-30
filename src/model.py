@@ -236,7 +236,6 @@ class AlexNet(nn.Module):
 
     def save(self, path=None):
          """Saves the model's state dictionary to a file."""
-         import os
          path = path or self.DEFAULT_WEIGHTS
          # Ensure the directory exists before saving
          dir_name = os.path.dirname(path)
