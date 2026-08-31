@@ -25,7 +25,9 @@ Developed in 2012 and originally written in CUDA and C++, it won the **ImageNet 
 │
 ├── requirements.txt
 │
-└── test.ipynb # model training + loss visualization + confusion matrix & classification report computation
+├── test.ipynb # model training + loss visualization + confusion matrix & classification report computation
+│   
+└── test-torchvision_alexnet.ipynb # vanilla torchivison alexnet training + loss visualization + confusion matrix & classification report computation
 
 ```
 
@@ -91,20 +93,20 @@ The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch mod
 
 ![Plots](IMAGES/train_val_plot.png)
 
-**83.26% validation accuracy** over 30 epochs on the [Imagenette dataset](https://github.com/fastai/imagenette) (in the included notebook run), having been trained with the notebook's loop over the full 9,469-image training split.
+**82.88% validation accuracy** over 40 epochs on the [Imagenette dataset](https://github.com/fastai/imagenette) (in the included notebook run), having been trained with the notebook's loop over the full 9,469-image training split.
 
 Here's how the implemented model compares to the one imported via **torchvision.models.alexnet**:
 
 | Model | Parameters | Val. Accuracy | Training Time | Hardware
 | --- | --- | --- | --- | --- |
-| **AlexNet-from-scratch** | `50,844,008` | `TBD` | `TBD` | `Tesla T4` |
-| **Imported AlexNet** | `61,100,840` | `TBD` | `TBD` | `Tesla T4` |
+| **AlexNet-from-scratch** | `50,844,008` | `82.88%` | `~1hr` | `Tesla T4` |
+| **Imported AlexNet** | `61,100,840` | `TBD` | `~50min` | `Tesla T4` |
 
 * The single accuracy figure is the least interesting output, though. [`test.ipynb`](test.ipynb) also produces a **confusion matrix** and a **per-class classification report** with precision, recall and F1 for each label.
 
-* Visualizing the **Classification Report**, a clear outlier was seen, that being the 3rd label (Cassette Player), the classifier reporting a precision of TBD%, recall of TBD%, and f1-score of TBD% respectively.
+* Visualizing the **Classification Report**, a clear outlier was seen, that being the 3rd label (Cassette Player), the classifier reporting a precision of `69%`, recall of `75%`, and f1-score of `72%` respectively.
 
-* For context, the original AlexNet achieved a top-5 error rate (percentage of test samples where a classification model's five most confident predictions do not include the correct label) of 15.3% on ImageNet. 
+* For context, the original AlexNet achieved a top-5 error rate (percentage of test samples where a classification model's five most confident predictions do not include the correct label) of `15.3%` on ImageNet. 
 
 * Training the **AlexNet-from-scratch** model and evaluating the metrics on ImageNet was out of the scope of this project, simply due to the size of ImageNet being ~144-155 GB and due to lack of compute power available. A possible expansion may be implemented in the near-future in which the model will be trained on a cloud instance and evaluated on larger datasets, such as the classical ImageNet.
 
