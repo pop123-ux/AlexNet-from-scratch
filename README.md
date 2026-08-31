@@ -12,7 +12,7 @@ Developed in 2012 and originally written in CUDA and C++, it won the **ImageNet 
 │   ├── Alex Krizhevsky.png # photo of Alex Krizhevsky   
 │   ├── alexNet-architecture.png # image of the AlexNet architecture    
 │   ├── imagenette.png # image of Imagenette dataset labels
-│   └── train_val_plot.png # visualization of training & validation loss curve
+│   └── train_val_plot1.png # visualization of training & validation loss curve
 │  
 ├── src/            # model initialization code + weights
 │   ├── __init__.py
