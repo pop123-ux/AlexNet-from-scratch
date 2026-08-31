@@ -91,7 +91,7 @@ The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch mod
 
 ### Results
 
-![Plots](IMAGES/train_val_plot.png)
+![Plots](IMAGES/train_val_plot1.png)
 
 **82.88% validation accuracy** over 40 epochs on the [Imagenette dataset](https://github.com/fastai/imagenette) (in the included notebook run), having been trained with the notebook's loop over the full 9,469-image training split.
 
