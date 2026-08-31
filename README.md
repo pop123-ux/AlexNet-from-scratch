@@ -99,8 +99,8 @@ Here's how the implemented model compares to the one imported via **torchvision.
 
 | Model | Parameters | Val. Accuracy | Training Time | Hardware
 | --- | --- | --- | --- | --- |
-| **AlexNet-from-scratch** | `50,844,008` | `82.88%` | `~1hr` | `Tesla T4` |
-| **Imported AlexNet** | `61,100,840` | `TBD` | `~50min` | `Tesla T4` |
+| **AlexNet-from-scratch** | `50,844,008` | `82,88%` | `~1hr` | `Tesla T4` |
+| **Imported AlexNet** | `61,100,840` | `74,34%` | `~50min` | `Tesla T4` |
 
 * The single accuracy figure is the least interesting output, though. [`test.ipynb`](test.ipynb) also produces a **confusion matrix** and a **per-class classification report** with precision, recall and F1 for each label.
 
