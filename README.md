@@ -87,7 +87,7 @@ The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch mod
 | Dropout | `0.5` |
 | Random Seed | `41` |
 | Checkpoint | `src/alexnet_model.pth` |
-| Runtime | `TBD` |
+| Runtime | `~1hr` |
 
 ### Results
 
