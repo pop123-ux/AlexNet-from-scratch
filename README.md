@@ -1,4 +1,9 @@
 # AlexNet-from-scratch in PyTorch
+<img width="900" height="675" alt="image" src="https://github.com/user-attachments/assets/81238501-21db-4c55-8b7b-9736b68719a4" />
+
+- - -
+
+# Architecture: #
 ![Architecture Image](IMAGES/alexNet-architecture.png)
 
 My working in-depth reimplementation of Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton's former state-of-the-art convolutional neural network. This is the 2nd project from the **Visual Scrambling** series in which I go through the most influential classic architectures, ending with a unique visual model design written and designed by me.
