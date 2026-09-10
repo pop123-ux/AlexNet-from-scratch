@@ -28,7 +28,7 @@ Developed in 2012 and originally written in CUDA and C++, it won the **ImageNet 
 │
 ├── README.md           # the repository's showcase
 │
-├── requirements.txt
+├── pyproject.toml
 │
 ├── test.ipynb # model training + loss visualization + confusion matrix & classification report computation
 │   
