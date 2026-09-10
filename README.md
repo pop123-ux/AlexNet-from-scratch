@@ -105,7 +105,7 @@ The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch mod
 
 Here's how the implemented model compares to the one imported via **torchvision.models.alexnet**:
 
-| Model | Parameters | Val. Accuracy | Training Time | Hardware
+| Model | Parameters (default 1000-class) | Val. Accuracy | Training Time | Hardware
 | --- | --- | --- | --- | --- |
 | **AlexNet-from-scratch** | `50,844,008` | `82,88%` | `~1hr` | `Tesla T4` |
 | **Imported AlexNet** | `61,100,840` | `74,34%` | `~50min` | `Tesla T4` |
