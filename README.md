@@ -38,25 +38,28 @@ Developed in 2012 and originally written in CUDA and C++, it won the **ImageNet 
 
 ## The architecture ##
 
-Every layer is written out in **simple PyTorch** rather than pulled from a library, and the shapes are forced by the 3x224x224 (RGB) input:
+Every layer is written out in **simple PyTorch** rather than pulled from a library, and the shapes are forced by the `3 × 224 × 224` RGB input:
 
 | Layer | Operation | Output | Trainable params |
-| --- | --- | --- | --- |
-| Input | 3x224x224 RGB | `3 x 224 x 224` | — |
-| **C1** | `Conv2d(3→96, 11x11, stride 4)` + ReLU  | `96 × 54 × 54` | 34,944 |
-| **S2** | `MaxPool2d(3x3, stride 2)` | `96 x 26 x 26` | 0 |
-| **C3** | `Conv2d(96→256, 5x5, pad 2)` + ReLU  | `256 x 26 x 26` | 614,656 |
-| **S4** | `MaxPool2d(3x3, stride 2)` | `256 × 12 × 12` | 0 |
-| **C5** | `Conv2d(256→384, 3x3, pad 1)` + ReLU  | `384 × 12 x 12` | 885,120 |
-| **C6** | `Conv2d(384→384, 3x3, pad 1)` + ReLU  | `384 × 12 x 12` | 1,327,488 |
-| **C7** | `Conv2d(384→256, 3x3, pad 1)` + ReLU  | `256 × 12 x 12` | 884,992 |
-| **S8** | `MaxPool2d(3x3, stride 2)` | `256 x 5 x 5` | 0 |
-| **F9** | `Linear(256x5x5=6400→4096)` + ReLU  | `4096` | 26,218,496 |
-| **D9** | `Dropout(p=0.5)` | `-` | 0 |
-| **F10** | `Linear(4096→4096)` + ReLU  | `4096` | 16,781,312 |
-| **D10** | `Dropout(p=0.5)` | `-` | 0 |
-| **Output-F11** | `Linear(4096->1000)` | `1000` classes for the original ImageNet classification task | 4,097,000 |
-| | | **Total** | **50,844,008** |
+| --- | --- | --- | ---: |
+| **Input** | `3 × 224 × 224` RGB | `3 × 224 × 224` | — |
+| **C1** | `Conv2d(3→96, 11×11, stride 4)` + ReLU | `96 × 54 × 54` | 34,944 |
+| **S2** | `MaxPool2d(3×3, stride 2)` | `96 × 26 × 26` | 0 |
+| **C3** | `Conv2d(96→256, 5×5, pad 2)` + ReLU | `256 × 26 × 26` | 614,656 |
+| **S4** | `MaxPool2d(3×3, stride 2)` | `256 × 12 × 12` | 0 |
+| **C5** | `Conv2d(256→384, 3×3, pad 1)` + ReLU | `384 × 12 × 12` | 885,120 |
+| **C6** | `Conv2d(384→384, 3×3, pad 1)` + ReLU | `384 × 12 × 12` | 1,327,488 |
+| **C7** | `Conv2d(384→256, 3×3, pad 1)` + ReLU | `256 × 12 × 12` | 884,992 |
+| **S8** | `MaxPool2d(3×3, stride 2)` | `256 × 5 × 5` | 0 |
+| **Flatten** | `Flatten(start_dim=1)` | `6400` | 0 |
+| **D9** | `Dropout(p=0.5)` | `6400` | 0 |
+| **F9** | `Linear(6400→4096)` + ReLU | `4096` | 26,218,496 |
+| **D10** | `Dropout(p=0.5)` | `4096` | 0 |
+| **F10** | `Linear(4096→4096)` + ReLU | `4096` | 16,781,312 |
+| **Output-F11** | `Linear(4096→num_classes)` | `num_classes` (`1000` by default) | 4,097,000* |
+| | | **Total** | **50,844,008*** |
+
+\* Parameter count shown for the default `num_classes=1000` configuration.
 
 ## The Imagenette dataset
 ![A representative image of the Imagenette dataset should appear here](IMAGES/imagenette.png)
@@ -148,7 +151,7 @@ I guess CNNs (and LLMs as an extension) really are black boxes after all :)
 
 Read more about AlexNet [here](https://en.wikipedia.org/wiki/AlexNet).
 
-- Alex, K., Ilya, S., Bengio, Y., & Geoffrey, H. (2012). [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf).
+- Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf).
 
 - Jeremy Howard, [Imagenette](https://github.com/fastai/imagenette/)
 
