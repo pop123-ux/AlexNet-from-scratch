@@ -215,9 +215,13 @@ class AlexNet(nn.Module):
             return accuracy, avg_val_loss, y_true, y_pred
 
     # Saving and loading the model's state dictionary to/from a file for later use.
-    # The default path sits next to this file, so it does not depend on the directory
-    # the script or notebook happens to be run from.
-    DEFAULT_WEIGHTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'alexnet_model.pth')
+    # The default checkpoint lives at repository_root/checkpoints so trained artifacts
+    # stay separate from source code.
+    DEFAULT_WEIGHTS = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        'checkpoints',
+        'alexnet_imagenette.pth',
+    )
 
     def load(self, path=None, device=None):
          """Loads the model's state dictionary from a file."""
