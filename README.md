@@ -1,4 +1,6 @@
 # AlexNet-from-scratch in PyTorch
+[![Tests](https://github.com/pop123-ux/AlexNet-from-scratch/actions/workflows/tests.yml/badge.svg)](https://github.com/pop123-ux/AlexNet-from-scratch/actions/workflows/tests.yml)
+
 <img width="900" height="675" alt="image" src="https://github.com/user-attachments/assets/81238501-21db-4c55-8b7b-9736b68719a4" />
 
 - - -
@@ -13,27 +15,33 @@ Developed in 2012 and originally written in CUDA and C++, it won the **ImageNet 
 ## Layout ##
 
 ```
-├── IMAGES
-│   ├── Alex Krizhevsky.png # photo of Alex Krizhevsky   
-│   ├── alexNet-architecture.png # image of the AlexNet architecture    
-│   ├── imagenette.png # image of Imagenette dataset labels
-│   └── train_val_plot1.png # visualization of training & validation loss curve
-│  
-├── src/            # model initialization code + weights
+├── .github/
+│   └── workflows/
+│       └── tests.yml              # CPU-only pytest CI on pushes and pull requests
+│
+├── IMAGES/
+│   ├── Alex_Krizhevsky.png        # photo of Alex Krizhevsky
+│   ├── alexNet-architecture.png   # AlexNet architecture visualization
+│   ├── imagenette.png             # Imagenette dataset labels
+│   └── train_val_plot1.png        # training & validation loss curve
+│
+├── checkpoints/
+│   └── alexnet_imagenette.pth     # trained Imagenette state_dict (Git LFS)
+│
+├── src/
 │   ├── __init__.py
-│   ├── alexnet_model.pth # Git LFS pointer to the AlexNet trained model on Imagenette
-│   └── model.py
+│   └── model.py                   # architecture + train/evaluate/save/load methods
 │
-├── LICENSE # the MIT License of the project
+├── tests/
+│   └── test_model.py              # ReLU, forward/backward, params and checkpoint-path smoke tests
 │
-├── README.md           # the repository's showcase
-│
-├── pyproject.toml
-│
-├── test.ipynb # model training + loss visualization + confusion matrix & classification report computation
-│   
-└── test-torchvision_alexnet.ipynb # vanilla torchivison alexnet training + loss visualization + confusion matrix & classification report computation
-
+├── .gitattributes                 # Git LFS rule for *.pth files
+├── .gitignore
+├── LICENSE
+├── pyproject.toml                 # project and development dependencies
+├── README.md
+├── test.ipynb                     # Imagenette training + metrics
+└── test_torchvision_alexnet.ipynb # torchvision AlexNet comparison experiment
 ```
 
 ## The architecture ##
@@ -94,8 +102,34 @@ The exact setup to reproduce the metrics the AlexNet-from-scratch in PyTorch mod
 | Scheduler | `ReduceLROnPlateau(factor=0.1, patience=5)` |
 | Dropout | `0.5` |
 | Random Seed | `41` |
-| Checkpoint | `src/alexnet_model.pth` |
+| Checkpoint | `checkpoints/alexnet_imagenette.pth` |
 | Runtime | `~1hr` |
+
+### Pretrained checkpoint
+
+The trained Imagenette state dictionary is stored at `checkpoints/alexnet_imagenette.pth` and tracked with **Git LFS**. Because the checkpoint was trained on Imagenette, instantiate the model with ten output classes before loading it:
+
+```python
+from src import AlexNet
+
+model = AlexNet(num_classes=10)
+model.load()
+model.eval()
+```
+
+The default `save()` and `load()` methods now resolve to the root-level `checkpoints/` directory, keeping trained artifacts separate from source code.
+
+### Automated tests and CI
+
+The lightweight test suite in `tests/test_model.py` does not retrain AlexNet or download Imagenette. It checks the custom ReLU, a full forward pass, gradient propagation through the trainable parameters, the parameter counter, and the default checkpoint path.
+
+Run it locally with:
+
+```bash
+python -m pytest tests -q
+```
+
+The same command runs automatically in GitHub Actions on pushes and pull requests to `main`. The badge at the top of this README reports the latest workflow result.
 
 ### Results
 
